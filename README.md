@@ -18,7 +18,21 @@ Used for incremental update.  Existing items will be retained.
 
 Used for data deletion.  Items matching the payload will be removed.
 
-## Data model for endpoints
+## Data model for payload
+
+```json
+{
+  "operation": "FULL/INCREMENTAL/DELETE",
+  "timestamp": "<iso-8601-datetime>",
+  "corrId": "<uuid>",
+  "datatype": "person/personalressurs/arbeidsforhold/organisasjonselement",
+  "orgId": "assetId",
+  "data": [
+    {},
+    {}
+  ]
+}
+```
 
 ## Adapter configuration
 | Key | Description | Example |

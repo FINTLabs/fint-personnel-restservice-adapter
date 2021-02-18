@@ -16,5 +16,5 @@ public class DataInput {
     private String client;
     private List data;
 
-    public enum Operation { FULL, INCREMENTAL }
+    public enum Operation { FULL, INCREMENTAL, DELETE }
 }
