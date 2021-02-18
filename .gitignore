@@ -1,0 +1,10 @@
+.gradle
+.idea
+build
+classes
+schema
+out
+*.iml
+javadocs/
+src/main/resources/application-*.properties
+/test-data/

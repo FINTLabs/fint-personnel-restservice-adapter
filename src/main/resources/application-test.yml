@@ -1,0 +1,16 @@
+security:
+ basic:
+  enabled: false
+
+fint:
+ personnel:
+  repository: test-data
+ adapter:
+  organizations: mock.no
+  endpoints:
+   providers:
+    personal: http://localhost:8081/provider
+
+ oauth:
+  enabled: false
+
