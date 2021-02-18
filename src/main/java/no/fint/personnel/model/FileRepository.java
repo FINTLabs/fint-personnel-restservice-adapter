@@ -2,6 +2,7 @@ package no.fint.personnel.model;
 
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.google.common.collect.Streams;
 import no.fint.model.FintMainObject;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +23,7 @@ public abstract class FileRepository<T extends FintMainObject> {
     private final ObjectWriter writer;
 
     public String getName() {
-        return location.getName(location.getNameCount()-1).toString();
+        return location.getName(location.getNameCount() - 1).toString();
     }
 
     protected FileRepository(Path location, ObjectReader reader, ObjectWriter writer) throws IOException {
@@ -46,21 +47,31 @@ public abstract class FileRepository<T extends FintMainObject> {
         };
     }
 
+    public void clear() {
+        try {
+            Files.find(location, 2, (p, a) -> a.isRegularFile())
+                    .forEach(Unchecked.consumer(Files::delete));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public abstract void store(Collection<?> items);
 
     protected void store(Stream<Identifiable<T>> items) {
-        items.forEach(it -> it.identifiers()
-                .filter(Objects::nonNull)
-                .map(Identifikator::getIdentifikatorverdi)
-                .filter(StringUtils::isNotBlank)
-                .map(id -> location.resolve(id + ".json"))
-                .map(Unchecked.function(Files::newBufferedWriter))
-                .forEach(writerConsumer(it.value())));
+        items.forEach(it ->
+                Streams.mapWithIndex(it.identifiers()
+                                .filter(Objects::nonNull)
+                                .map(Identifikator::getIdentifikatorverdi)
+                                .filter(StringUtils::isNotBlank),
+                        (id, index) -> location.resolve(index + "_" + id + ".json"))
+                        .map(Unchecked.function(Files::newBufferedWriter))
+                        .forEach(writerConsumer(it.value())));
     }
 
     protected Stream<T> load() {
         try {
-            return Files.find(location, 2, (p,a) -> a.isRegularFile())
+            return Files.find(location, 2, (p, a) -> a.isRegularFile())
                     .map(Unchecked.function(Files::newBufferedReader))
                     .map(Unchecked.function(reader::readValue));
         } catch (IOException e) {

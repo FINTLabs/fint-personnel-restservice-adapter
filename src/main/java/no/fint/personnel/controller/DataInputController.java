@@ -28,6 +28,7 @@ public class DataInputController {
         if (repository == null) {
             return ResponseEntity.notFound().build();
         }
+        repository.clear();
         repository.store(dataInput.getData());
         return ResponseEntity.accepted().build();
     }
