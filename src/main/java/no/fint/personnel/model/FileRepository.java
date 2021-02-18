@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -77,5 +78,17 @@ public abstract class FileRepository<T extends FintMainObject> {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public abstract void remove(Collection<?> data);
+
+    protected void remove(Stream<Identifiable<T>> items) {
+        items.forEach(it ->
+                Streams.mapWithIndex(it.identifiers()
+                                .filter(Objects::nonNull)
+                                .map(Identifikator::getIdentifikatorverdi)
+                                .filter(StringUtils::isNotBlank),
+                        (id, index) -> location.resolve(index + "_" + id + ".json"))
+                        .map(Unchecked.function(Files::deleteIfExists)));
     }
 }

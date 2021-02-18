@@ -21,8 +21,8 @@ public class DataInputController {
         this.repositories = b.build();
     }
 
-    @PostMapping("full")
-    public ResponseEntity postFullData(@RequestBody DataInput dataInput) {
+    @PostMapping
+    public ResponseEntity fullData(@RequestBody DataInput dataInput) {
         log.info("Full update, {} {} {} {}, {} items", dataInput.getOrgId(), dataInput.getDatatype(), dataInput.getTimestamp(), dataInput.getCorrId(), dataInput.getData().size());
         final FileRepository repository = repositories.get(dataInput.getDatatype());
         if (repository == null) {
@@ -33,8 +33,8 @@ public class DataInputController {
         return ResponseEntity.accepted().build();
     }
 
-    @PostMapping("incremental")
-    public ResponseEntity postIncrementalData(@RequestBody DataInput dataInput) {
+    @PatchMapping
+    public ResponseEntity incrementalData(@RequestBody DataInput dataInput) {
         log.info("Incremental update, {} {} {} {}, {} items", dataInput.getOrgId(), dataInput.getDatatype(), dataInput.getTimestamp(), dataInput.getCorrId(), dataInput.getData().size());
         final FileRepository repository = repositories.get(dataInput.getDatatype());
         if (repository == null) {
@@ -42,6 +42,18 @@ public class DataInputController {
         }
         repository.store(dataInput.getData());
         return ResponseEntity.accepted().build();
+    }
+
+    @DeleteMapping
+    public ResponseEntity deleteData(@RequestBody DataInput dataInput) {
+        log.info("Deletion, {} {} {} {}, {} items", dataInput.getOrgId(), dataInput.getDatatype(), dataInput.getTimestamp(), dataInput.getCorrId(), dataInput.getData().size());
+        final FileRepository repository = repositories.get(dataInput.getDatatype());
+        if (repository == null) {
+            return ResponseEntity.notFound().build();
+        }
+        repository.remove(dataInput.getData());
+        return ResponseEntity.accepted().build();
+
     }
 
 }

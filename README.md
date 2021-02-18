@@ -6,6 +6,18 @@ The tool adds two POST endpoints for supplying full and partial additions to the
 
 ## Endpoints
 
+- `POST /input`
+
+Used for full payload update.  Existing items will be removed first.
+
+- `PATCH /input`
+
+Used for incremental update.  Existing items will be retained.
+
+- `DELETE /input`
+
+Used for data deletion.  Items matching the payload will be removed.
+
 ## Data model for endpoints
 
 ## Adapter configuration

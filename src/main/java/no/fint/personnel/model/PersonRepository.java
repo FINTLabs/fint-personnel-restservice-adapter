@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 @Repository
 public class PersonRepository extends FileRepository<PersonResource> {
     final ObjectMapper objectMapper;
+
     public PersonRepository(Properties properties, ObjectMapper objectMapper) throws IOException {
         super(properties.getRepository().resolve("person"), objectMapper.readerFor(PersonResource.class), objectMapper.writerFor(PersonResource.class));
         this.objectMapper = objectMapper;
@@ -25,5 +26,12 @@ public class PersonRepository extends FileRepository<PersonResource> {
 
     public Stream<PersonResource> load() {
         return super.load().map(PersonResource.class::cast);
+    }
+
+    @Override
+    public void remove(Collection<?> items) {
+        super.remove(items.stream()
+                .map(it -> objectMapper.convertValue(it, PersonResource.class))
+                .map(it -> new Identifiable<>(it, PersonResource::getFodselsnummer)));
     }
 }
