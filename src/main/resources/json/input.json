@@ -1,0 +1,23 @@
+{
+  "$id": "https://github.com/FINTLabs/fint-personnel-restservice-adapter/blob/master/src/main/resources/json/input.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Data Input type",
+  "type": "object",
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "corrId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "orgId": {
+      "type": "string"
+    },
+    "data": {
+      "type": "array"
+    }
+  },
+  "required": [ "data" ]
+}

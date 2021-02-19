@@ -6,26 +6,34 @@ The tool adds two POST endpoints for supplying full and partial additions to the
 
 ## Endpoints
 
-- `POST /input`
+- `POST /input/{datatype}`
 
 Used for full payload update.  Existing items will be removed first.
 
-- `PATCH /input`
+- `PATCH /input/{datatype}`
 
 Used for incremental update.  Existing items will be retained.
 
-- `DELETE /input`
+- `DELETE /input/{datatype}`
 
 Used for data deletion.  Items matching the payload will be removed.
+
+## Datatype
+
+Data type is one of:
+
+- `person`
+- `personalressurs`
+- `arbeidsforhold`
+- `organisasjonselement`
 
 ## Data model for payload
 
 ```json
 {
-  "operation": "FULL/INCREMENTAL/DELETE",
   "timestamp": "<iso-8601-datetime>",
   "corrId": "<uuid>",
-  "datatype": "person/personalressurs/arbeidsforhold/organisasjonselement",
+  "datatype": "",
   "orgId": "assetId",
   "data": [
     {},
@@ -33,6 +41,8 @@ Used for data deletion.  Items matching the payload will be removed.
   ]
 }
 ```
+
+[JSON Schema for payload](src/main/resources/json/input.json)
 
 ## Adapter configuration
 | Key | Description | Example |
