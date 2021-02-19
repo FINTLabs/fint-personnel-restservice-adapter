@@ -33,7 +33,6 @@ Data type is one of:
 {
   "timestamp": "<iso-8601-datetime>",
   "corrId": "<uuid>",
-  "datatype": "",
   "orgId": "assetId",
   "data": [
     {},
