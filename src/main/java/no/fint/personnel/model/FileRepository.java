@@ -51,7 +51,9 @@ public abstract class FileRepository<T extends FintMainObject> {
     private Path getRootDir(String orgId) {
         try {
             final Path rootDir = location.resolve(orgId);
-            Files.createDirectories(rootDir);
+            if (!Files.isDirectory(rootDir)) {
+                return Files.createDirectories(rootDir);
+            }
             return rootDir;
         } catch (IOException e) {
             throw new RuntimeException(e);
