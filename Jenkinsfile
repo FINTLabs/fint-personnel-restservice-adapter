@@ -18,6 +18,7 @@ pipeline {
                 withDockerRegistry([credentialsId: 'fintlabsacr.azurecr.io', url: 'https://fintlabsacr.azurecr.io']) {
                     sh "docker push 'fintlabsacr.azurecr.io/fint-personnel-restservice-adapter:${GIT_COMMIT}'"
                 }
+                kubernetesDeploy configs: 'k8s-alpha.yaml', kubeconfigId: 'aks-alpha-fint'
             }
         }
         stage('Publish PR') {
