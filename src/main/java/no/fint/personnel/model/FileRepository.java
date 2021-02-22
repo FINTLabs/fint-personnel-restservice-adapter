@@ -54,6 +54,7 @@ public abstract class FileRepository<T extends FintMainObject> {
         items.map(Identifiable::tuple)
                 .map(t -> t.map1(this::getFileName))
                 .map(t -> t.map1(location::resolve))
+                .peek(t -> System.out.println(t.v1))
                 .map(t -> t.map1(Path::toFile))
                 .forEach(Tuple.consumer(Unchecked.biConsumer(writer::writeValue)));
     }
@@ -83,12 +84,13 @@ public abstract class FileRepository<T extends FintMainObject> {
         }
     }
 
-    public abstract void remove(Collection<?> data);
+    public abstract boolean remove(Collection<?> data);
 
-    protected void remove(Stream<Identifiable<T>> items) {
-        items.map(Identifiable::identifiers)
+    protected boolean remove(Stream<Identifiable<T>> items) {
+        return items.map(Identifiable::identifiers)
                 .map(this::getFileName)
                 .map(location::resolve)
-                .map(Unchecked.function(Files::deleteIfExists));
+                .peek(System.out::println)
+                .allMatch(Unchecked.predicate(Files::deleteIfExists));
     }
 }

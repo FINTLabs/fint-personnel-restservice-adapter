@@ -14,9 +14,9 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh "docker tag ${GIT_COMMIT} fintlabsacr.azurecr.io/fint-personnel-restservice-adapter:latest"
+                sh "docker tag ${GIT_COMMIT} fintlabsacr.azurecr.io/fint-personnel-restservice-adapter:${GIT_COMMIT}"
                 withDockerRegistry([credentialsId: 'fintlabsacr.azurecr.io', url: 'https://fintlabsacr.azurecr.io']) {
-                    sh "docker push 'fintlabsacr.azurecr.io/fint-personnel-restservice-adapter:latest'"
+                    sh "docker push 'fintlabsacr.azurecr.io/fint-personnel-restservice-adapter:${GIT_COMMIT}'"
                 }
             }
         }

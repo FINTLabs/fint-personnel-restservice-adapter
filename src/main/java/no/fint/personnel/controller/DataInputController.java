@@ -61,9 +61,10 @@ public class DataInputController {
         if (repository == null) {
             return ResponseEntity.notFound().build();
         }
-        repository.remove(input.getData());
-        return ResponseEntity.accepted().build();
-
+        if (repository.remove(input.getData())) {
+            return ResponseEntity.accepted().build();
+        }
+        return ResponseEntity.unprocessableEntity().build();
     }
 
 }

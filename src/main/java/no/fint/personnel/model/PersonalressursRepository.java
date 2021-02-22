@@ -29,8 +29,8 @@ public class PersonalressursRepository extends FileRepository<PersonalressursRes
     }
 
     @Override
-    public void remove(Collection<?> items) {
-        super.remove(items.stream()
+    public boolean remove(Collection<?> items) {
+        return super.remove(items.stream()
                 .map(it -> objectMapper.convertValue(it, PersonalressursResource.class))
                 .map(it -> new Identifiable<>(it, PersonalressursResource::getSystemId, PersonalressursResource::getAnsattnummer, PersonalressursResource::getBrukernavn)));
     }

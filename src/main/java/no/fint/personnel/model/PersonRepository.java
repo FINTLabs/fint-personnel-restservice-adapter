@@ -29,8 +29,8 @@ public class PersonRepository extends FileRepository<PersonResource> {
     }
 
     @Override
-    public void remove(Collection<?> items) {
-        super.remove(items.stream()
+    public boolean remove(Collection<?> items) {
+        return super.remove(items.stream()
                 .map(it -> objectMapper.convertValue(it, PersonResource.class))
                 .map(it -> new Identifiable<>(it, PersonResource::getFodselsnummer)));
     }
