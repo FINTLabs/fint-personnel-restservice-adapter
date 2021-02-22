@@ -46,6 +46,8 @@ spec:
               value: /adapter
             - name: server.port
               value: '8080'
+            - name: security.basic.enabled
+              value: 'false'
             - name: fint.personnel.repository
               value: /adapter
             - name: fint.adapter.endpoints.providers.personal
