@@ -40,7 +40,7 @@ spec:
             - configMapRef:
                 name: fint-environment
             - secretRef:
-                name: fake-adapter
+                name: trondelagfylke-personnel-adapter
           env:
             - name: server.context-path
               value: /adapter
