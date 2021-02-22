@@ -2,26 +2,27 @@ package no.fint.personnel.model;
 
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.google.common.collect.Streams;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hashing;
 import no.fint.model.FintMainObject;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.lambda.Unchecked;
+import org.jooq.lambda.tuple.Tuple;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
+import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 public abstract class FileRepository<T extends FintMainObject> {
     private final Path location;
     private final ObjectReader reader;
     private final ObjectWriter writer;
+    private final HashFunction hashFunction;
 
     public String getName() {
         return location.getName(location.getNameCount() - 1).toString();
@@ -35,17 +36,7 @@ public abstract class FileRepository<T extends FintMainObject> {
         }
         this.reader = reader;
         this.writer = writer;
-    }
-
-    protected Consumer<BufferedWriter> writerConsumer(T value) {
-        return bufferedWriter -> {
-            try {
-                writer.writeValue(bufferedWriter, value);
-                bufferedWriter.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        };
+        hashFunction = Hashing.goodFastHash(32);
     }
 
     public void clear() {
@@ -60,14 +51,26 @@ public abstract class FileRepository<T extends FintMainObject> {
     public abstract void store(Collection<?> items);
 
     protected void store(Stream<Identifiable<T>> items) {
-        items.forEach(it ->
-                Streams.mapWithIndex(it.identifiers()
-                                .filter(Objects::nonNull)
-                                .map(Identifikator::getIdentifikatorverdi)
-                                .filter(StringUtils::isNotBlank),
-                        (id, index) -> location.resolve(index + "_" + id + ".json"))
-                        .map(Unchecked.function(Files::newBufferedWriter))
-                        .forEach(writerConsumer(it.value())));
+        items.map(Identifiable::tuple)
+                .map(t -> t.map1(this::getFileName))
+                .map(t -> t.map1(location::resolve))
+                .map(t -> t.map1(Path::toFile))
+                .forEach(Tuple.consumer(Unchecked.biConsumer(writer::writeValue)));
+    }
+
+    private String getFileName(Stream<Identifikator> identifiers) {
+        return identifiers
+                .filter(Objects::nonNull)
+                .map(Identifikator::getIdentifikatorverdi)
+                .filter(StringUtils::isNotBlank)
+                .sorted()
+                .collect(Collector.of(
+                        hashFunction::newHasher,
+                        (h, v) -> h.putUnencodedChars(v),
+                        (h1, h2) -> {
+                            throw new IllegalStateException();
+                        },
+                        h -> h.hash().toString() + ".json"));
     }
 
     protected Stream<T> load() {
@@ -83,12 +86,9 @@ public abstract class FileRepository<T extends FintMainObject> {
     public abstract void remove(Collection<?> data);
 
     protected void remove(Stream<Identifiable<T>> items) {
-        items.forEach(it ->
-                Streams.mapWithIndex(it.identifiers()
-                                .filter(Objects::nonNull)
-                                .map(Identifikator::getIdentifikatorverdi)
-                                .filter(StringUtils::isNotBlank),
-                        (id, index) -> location.resolve(index + "_" + id + ".json"))
-                        .map(Unchecked.function(Files::deleteIfExists)));
+        items.map(Identifiable::identifiers)
+                .map(this::getFileName)
+                .map(location::resolve)
+                .map(Unchecked.function(Files::deleteIfExists));
     }
 }

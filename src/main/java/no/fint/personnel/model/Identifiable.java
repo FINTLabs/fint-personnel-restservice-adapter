@@ -2,6 +2,7 @@ package no.fint.personnel.model;
 
 import no.fint.model.FintMainObject;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
+import org.jooq.lambda.tuple.Tuple2;
 
 import java.util.Arrays;
 import java.util.function.Function;
@@ -22,5 +23,9 @@ public class Identifiable<T extends FintMainObject> {
 
     public T value() {
         return value;
+    }
+
+    public Tuple2<Stream<Identifikator>, T> tuple() {
+        return new Tuple2<>(identifiers(), value());
     }
 }
