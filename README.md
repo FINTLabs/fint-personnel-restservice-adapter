@@ -12,7 +12,7 @@ Used for full payload update.  Existing items will be removed first.
 
 - `PATCH /input/{datatype}`
 
-Used for incremental update.  Existing items will be retained.
+Used for incremental update.  Existing items will be retained, and updated with the items supplied.
 
 - `DELETE /input/{datatype}`
 
