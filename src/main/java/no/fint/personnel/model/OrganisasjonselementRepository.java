@@ -18,19 +18,19 @@ public class OrganisasjonselementRepository extends FileRepository<Organisasjons
         this.objectMapper = objectMapper;
     }
 
-    public void store(Collection<?> items) {
-        super.store(items.stream()
+    public void store(String orgId, Collection<?> items) {
+        super.store(orgId, items.stream()
                 .map(it -> objectMapper.convertValue(it, OrganisasjonselementResource.class))
                 .map(it -> new Identifiable<>(it, OrganisasjonselementResource::getOrganisasjonsId, OrganisasjonselementResource::getOrganisasjonsKode, OrganisasjonselementResource::getOrganisasjonsnummer)));
     }
 
-    public Stream<OrganisasjonselementResource> load() {
-        return super.load().map(OrganisasjonselementResource.class::cast);
+    public Stream<OrganisasjonselementResource> load(String orgId) {
+        return super.load(orgId).map(OrganisasjonselementResource.class::cast);
     }
 
     @Override
-    public boolean remove(Collection<?> items) {
-        return super.remove(items.stream()
+    public boolean remove(String orgId, Collection<?> items) {
+        return super.remove(orgId, items.stream()
                 .map(it -> objectMapper.convertValue(it, OrganisasjonselementResource.class))
                 .map(it -> new Identifiable<>(it, OrganisasjonselementResource::getOrganisasjonsId, OrganisasjonselementResource::getOrganisasjonsKode, OrganisasjonselementResource::getOrganisasjonsnummer)));
     }

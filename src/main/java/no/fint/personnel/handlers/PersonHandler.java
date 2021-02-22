@@ -21,7 +21,7 @@ public class PersonHandler implements Handler {
 
     @Override
     public void accept(Event<FintLinks> fintLinksEvent) {
-        repository.load().forEach(fintLinksEvent::addData);
+        repository.load(fintLinksEvent.getOrgId()).forEach(fintLinksEvent::addData);
         fintLinksEvent.setResponseStatus(ResponseStatus.ACCEPTED);
     }
 

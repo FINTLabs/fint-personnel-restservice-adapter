@@ -18,19 +18,19 @@ public class PersonalressursRepository extends FileRepository<PersonalressursRes
         this.objectMapper = objectMapper;
     }
 
-    public void store(Collection<?> items) {
-        super.store(items.stream()
+    public void store(String orgId, Collection<?> items) {
+        super.store(orgId, items.stream()
                 .map(it -> objectMapper.convertValue(it, PersonalressursResource.class))
                 .map(it -> new Identifiable<>(it, PersonalressursResource::getSystemId, PersonalressursResource::getAnsattnummer, PersonalressursResource::getBrukernavn)));
     }
 
-    public Stream<PersonalressursResource> load() {
-        return super.load().map(PersonalressursResource.class::cast);
+    public Stream<PersonalressursResource> load(String orgId) {
+        return super.load(orgId).map(PersonalressursResource.class::cast);
     }
 
     @Override
-    public boolean remove(Collection<?> items) {
-        return super.remove(items.stream()
+    public boolean remove(String orgId, Collection<?> items) {
+        return super.remove(orgId, items.stream()
                 .map(it -> objectMapper.convertValue(it, PersonalressursResource.class))
                 .map(it -> new Identifiable<>(it, PersonalressursResource::getSystemId, PersonalressursResource::getAnsattnummer, PersonalressursResource::getBrukernavn)));
     }

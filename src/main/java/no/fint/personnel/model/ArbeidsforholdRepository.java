@@ -18,19 +18,19 @@ public class ArbeidsforholdRepository extends FileRepository<ArbeidsforholdResou
         this.objectMapper = objectMapper;
     }
 
-    public void store(Collection<?> items) {
-        super.store(items.stream()
+    public void store(String orgId, Collection<?> items) {
+        super.store(orgId, items.stream()
                 .map(it -> objectMapper.convertValue(it, ArbeidsforholdResource.class))
                 .map(it -> new Identifiable<>(it, ArbeidsforholdResource::getSystemId)));
     }
 
-    public Stream<ArbeidsforholdResource> load() {
-        return super.load().map(ArbeidsforholdResource.class::cast);
+    public Stream<ArbeidsforholdResource> load(String orgId) {
+        return super.load(orgId).map(ArbeidsforholdResource.class::cast);
     }
 
     @Override
-    public boolean remove(Collection<?> items) {
-        return super.remove(items.stream()
+    public boolean remove(String orgId, Collection<?> items) {
+        return super.remove(orgId, items.stream()
                 .map(it -> objectMapper.convertValue(it, ArbeidsforholdResource.class))
                 .map(it -> new Identifiable<>(it, ArbeidsforholdResource::getSystemId)));
     }

@@ -39,21 +39,32 @@ public abstract class FileRepository<T extends FintMainObject> {
         hashFunction = Hashing.goodFastHash(32);
     }
 
-    public void clear() {
+    public void clear(String orgId) {
         try {
-            Files.find(location, 2, (p, a) -> a.isRegularFile())
+            Files.find(getRootDir(orgId), 2, (p, a) -> a.isRegularFile())
                     .forEach(Unchecked.consumer(Files::delete));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public abstract void store(Collection<?> items);
+    private Path getRootDir(String orgId) {
+        try {
+            final Path rootDir = location.resolve(orgId);
+            Files.createDirectories(rootDir);
+            return rootDir;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-    protected void store(Stream<Identifiable<T>> items) {
+    public abstract void store(String orgId, Collection<?> items);
+
+    protected void store(String orgId, Stream<Identifiable<T>> items) {
+        final Path path = getRootDir(orgId);
         items.map(Identifiable::tuple)
                 .map(t -> t.map1(this::getFileName))
-                .map(t -> t.map1(location::resolve))
+                .map(t -> t.map1(path::resolve))
                 .peek(t -> System.out.println(t.v1))
                 .map(t -> t.map1(Path::toFile))
                 .forEach(Tuple.consumer(Unchecked.biConsumer(writer::writeValue)));
@@ -74,9 +85,9 @@ public abstract class FileRepository<T extends FintMainObject> {
                         h -> h.hash().toString() + ".json"));
     }
 
-    protected Stream<T> load() {
+    protected Stream<T> load(String orgId) {
         try {
-            return Files.find(location, 2, (p, a) -> a.isRegularFile())
+            return Files.find(getRootDir(orgId), 2, (p, a) -> a.isRegularFile())
                     .map(Unchecked.function(Files::newBufferedReader))
                     .map(Unchecked.function(reader::readValue));
         } catch (IOException e) {
@@ -84,12 +95,13 @@ public abstract class FileRepository<T extends FintMainObject> {
         }
     }
 
-    public abstract boolean remove(Collection<?> data);
+    public abstract boolean remove(String orgId, Collection<?> data);
 
-    protected boolean remove(Stream<Identifiable<T>> items) {
+    protected boolean remove(String orgId, Stream<Identifiable<T>> items) {
+        final Path path = getRootDir(orgId);
         return items.map(Identifiable::identifiers)
                 .map(this::getFileName)
-                .map(location::resolve)
+                .map(path::resolve)
                 .peek(System.out::println)
                 .allMatch(Unchecked.predicate(Files::deleteIfExists));
     }

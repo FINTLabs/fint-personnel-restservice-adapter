@@ -18,19 +18,19 @@ public class PersonRepository extends FileRepository<PersonResource> {
         this.objectMapper = objectMapper;
     }
 
-    public void store(Collection<?> items) {
-        super.store(items.stream()
+    public void store(String orgId, Collection<?> items) {
+        super.store(orgId, items.stream()
                 .map(it -> objectMapper.convertValue(it, PersonResource.class))
                 .map(it -> new Identifiable<>(it, PersonResource::getFodselsnummer)));
     }
 
-    public Stream<PersonResource> load() {
-        return super.load().map(PersonResource.class::cast);
+    public Stream<PersonResource> load(String orgId) {
+        return super.load(orgId).map(PersonResource.class::cast);
     }
 
     @Override
-    public boolean remove(Collection<?> items) {
-        return super.remove(items.stream()
+    public boolean remove(String orgId, Collection<?> items) {
+        return super.remove(orgId, items.stream()
                 .map(it -> objectMapper.convertValue(it, PersonResource.class))
                 .map(it -> new Identifiable<>(it, PersonResource::getFodselsnummer)));
     }

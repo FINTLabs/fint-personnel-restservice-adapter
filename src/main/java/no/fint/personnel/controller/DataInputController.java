@@ -32,8 +32,8 @@ public class DataInputController {
         if (repository == null) {
             return ResponseEntity.notFound().build();
         }
-        repository.clear();
-        repository.store(input.getData());
+        repository.clear(input.getOrgId());
+        repository.store(input.getOrgId(), input.getData());
         return ResponseEntity.accepted().build();
     }
 
@@ -47,7 +47,7 @@ public class DataInputController {
         if (repository == null) {
             return ResponseEntity.notFound().build();
         }
-        repository.store(input.getData());
+        repository.store(input.getOrgId(), input.getData());
         return ResponseEntity.accepted().build();
     }
 
@@ -61,7 +61,7 @@ public class DataInputController {
         if (repository == null) {
             return ResponseEntity.notFound().build();
         }
-        if (repository.remove(input.getData())) {
+        if (repository.remove(input.getOrgId(), input.getData())) {
             return ResponseEntity.accepted().build();
         }
         return ResponseEntity.unprocessableEntity().build();
