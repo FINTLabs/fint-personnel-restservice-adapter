@@ -20,12 +20,12 @@ Used for data deletion.  Items matching the payload will be removed.
 
 ## Datatype
 
-Data type is one of:
+Data type is one of the following, and must adhere to the corresponding JSON schema.
 
-- `person`
-- `personalressurs`
-- `arbeidsforhold`
-- `organisasjonselement`
+- `person` [schema](https://schema.fintlabs.no/felles/person.json)
+- `personalressurs` [schema](https://schema.fintlabs.no/administrasjon/personalressurs.json)
+- `arbeidsforhold` [schema](https://schema.fintlabs.no/administrasjon/arbeidsforhold.json)
+- `organisasjonselement` [schema](https://schema.fintlabs.no/administrasjon/organisasjonselement.json)
 
 ## Data model for payload
 
@@ -40,6 +40,8 @@ Data type is one of:
   ]
 }
 ```
+
+The objects in the `data` array must all match the same JSON Schema.
 
 [JSON Schema for payload](src/main/resources/json/input.json)
 

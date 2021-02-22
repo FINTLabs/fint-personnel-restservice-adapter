@@ -16,8 +16,27 @@
       "type": "string"
     },
     "data": {
-      "type": "array"
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "https://schema.fintlabs.no/felles/person.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/personalressurs.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/arbeidsforhold.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/organisasjonselement.json"
+          }
+        ]
+      }
     }
   },
-  "required": [ "data" ]
+  "required": [
+    "data",
+    "orgId"
+  ]
 }
