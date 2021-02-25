@@ -3,6 +3,7 @@ package no.fint.personnel.model;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import no.fint.model.resource.administrasjon.personal.ArbeidsforholdResource;
 import no.fint.personnel.Properties;
+import no.fint.personnel.service.ValidationService;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -13,8 +14,8 @@ import java.util.stream.Stream;
 public class ArbeidsforholdRepository extends FileRepository<ArbeidsforholdResource> {
     final ObjectMapper objectMapper;
 
-    public ArbeidsforholdRepository(Properties properties, ObjectMapper objectMapper) throws IOException {
-        super(properties.getRepository().resolve("arbeidsforhold"), objectMapper.readerFor(ArbeidsforholdResource.class), objectMapper.writerFor(ArbeidsforholdResource.class));
+    public ArbeidsforholdRepository(Properties properties, ObjectMapper objectMapper, ValidationService validationService) throws IOException {
+        super(properties.getRepository().resolve("arbeidsforhold"), objectMapper.readerFor(ArbeidsforholdResource.class), objectMapper.writerFor(ArbeidsforholdResource.class), validationService);
         this.objectMapper = objectMapper;
     }
 

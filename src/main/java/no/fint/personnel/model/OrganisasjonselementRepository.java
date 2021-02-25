@@ -3,6 +3,7 @@ package no.fint.personnel.model;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import no.fint.model.resource.administrasjon.organisasjon.OrganisasjonselementResource;
 import no.fint.personnel.Properties;
+import no.fint.personnel.service.ValidationService;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -13,8 +14,8 @@ import java.util.stream.Stream;
 public class OrganisasjonselementRepository extends FileRepository<OrganisasjonselementResource> {
     final ObjectMapper objectMapper;
 
-    public OrganisasjonselementRepository(Properties properties, ObjectMapper objectMapper) throws IOException {
-        super(properties.getRepository().resolve("organisasjonselement"), objectMapper.readerFor(OrganisasjonselementResource.class), objectMapper.writerFor(OrganisasjonselementResource.class));
+    public OrganisasjonselementRepository(Properties properties, ObjectMapper objectMapper, ValidationService validationService) throws IOException {
+        super(properties.getRepository().resolve("organisasjonselement"), objectMapper.readerFor(OrganisasjonselementResource.class), objectMapper.writerFor(OrganisasjonselementResource.class), validationService);
         this.objectMapper = objectMapper;
     }
 

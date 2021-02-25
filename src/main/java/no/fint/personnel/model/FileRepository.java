@@ -6,6 +6,7 @@ import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 import no.fint.model.FintMainObject;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
+import no.fint.personnel.service.ValidationService;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.lambda.Unchecked;
 import org.jooq.lambda.tuple.Tuple;
@@ -23,12 +24,14 @@ public abstract class FileRepository<T extends FintMainObject> {
     private final ObjectReader reader;
     private final ObjectWriter writer;
     private final HashFunction hashFunction;
+    private final ValidationService validationService;
 
     public String getName() {
         return location.getName(location.getNameCount() - 1).toString();
     }
 
-    protected FileRepository(Path location, ObjectReader reader, ObjectWriter writer) throws IOException {
+    protected FileRepository(Path location, ObjectReader reader, ObjectWriter writer, ValidationService validationService) throws IOException {
+        this.validationService = validationService;
         if (!Files.isDirectory(location)) {
             this.location = Files.createDirectories(location);
         } else {
@@ -64,7 +67,8 @@ public abstract class FileRepository<T extends FintMainObject> {
 
     protected void store(String orgId, Stream<Identifiable<T>> items) {
         final Path path = getRootDir(orgId);
-        items.map(Identifiable::tuple)
+        items.peek(validationService.validate())
+                .map(Identifiable::tuple)
                 .map(t -> t.map1(this::getFileName))
                 .map(t -> t.map1(path::resolve))
                 .peek(t -> System.out.println(t.v1))
