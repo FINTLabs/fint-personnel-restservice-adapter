@@ -6,6 +6,8 @@ import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 import no.fint.model.FintMainObject;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
+import no.fint.model.resource.FintLinks;
+import no.fint.personnel.service.LinkMapperService;
 import no.fint.personnel.service.ValidationService;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.lambda.Unchecked;
@@ -19,7 +21,7 @@ import java.util.Objects;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 
-public abstract class FileRepository<T extends FintMainObject> {
+public abstract class FileRepository<T extends FintMainObject & FintLinks> {
     private final Path location;
     private final ObjectReader reader;
     private final ObjectWriter writer;
@@ -69,6 +71,7 @@ public abstract class FileRepository<T extends FintMainObject> {
         final Path path = getRootDir(orgId);
         items.peek(validationService.validate())
                 .map(Identifiable::tuple)
+                .map(t -> t.map2(LinkMapperService::remap))
                 .map(t -> t.map1(this::getFileName))
                 .map(t -> t.map1(path::resolve))
                 .peek(t -> System.out.println(t.v1))
