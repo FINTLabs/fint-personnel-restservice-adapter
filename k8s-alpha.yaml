@@ -50,8 +50,6 @@ spec:
               value: 'false'
             - name: fint.validation.ignore
               value: 'false'
-            - name: logging.level.no.fint.personnel.service.LinkMapperService
-              value: trace
             - name: fint.personnel.repository
               value: /adapter
             - name: fint.adapter.endpoints.providers.personal
