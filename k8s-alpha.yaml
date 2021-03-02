@@ -56,6 +56,8 @@ spec:
               value: https://beta.felleskomponent.no/administrasjon/personal/provider
             - name: fint.adapter.endpoints.providers.organisasjon
               value: https://beta.felleskomponent.no/administrasjon/organisasjon/provider
+            - name: fint.adapter.endpoints.providers.kodeverk
+              value: https://beta.felleskomponent.no/administrasjon/kodeverk/provider
       restartPolicy: Always
   selector:
     matchLabels:
