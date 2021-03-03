@@ -30,6 +30,60 @@
           },
           {
             "$ref": "https://schema.fintlabs.no/administrasjon/organisasjonselement.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/aktivitet.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/anlegg.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/ansvar.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/arbeidsforholdstype.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/art.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/diverse.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/fravarsgrunn.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/fravarstype.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/funksjon.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/kontrakt.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/lonnsart.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/lopenummer.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/objekt.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/personalressurskategori.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/prosjekt.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/ramme.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/stillingskode.json"
+          },
+          {
+            "$ref": "https://schema.fintlabs.no/administrasjon/uketimetall.json"
           }
         ]
       }

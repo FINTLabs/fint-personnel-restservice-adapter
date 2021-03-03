@@ -26,6 +26,25 @@ Data type is one of the following, and must adhere to the corresponding JSON sch
 - `personalressurs` [schema](https://schema.fintlabs.no/administrasjon/personalressurs.json)
 - `arbeidsforhold` [schema](https://schema.fintlabs.no/administrasjon/arbeidsforhold.json)
 - `organisasjonselement` [schema](https://schema.fintlabs.no/administrasjon/organisasjonselement.json)
+- `aktivitet` [schema](https://schema.fintlabs.no/administrasjon/aktivitet.json)
+- `anlegg` [schema](https://schema.fintlabs.no/administrasjon/anlegg.json)
+- `ansvar` [schema](https://schema.fintlabs.no/administrasjon/ansvar.json)
+- `arbeidsforholdstype` [schema](https://schema.fintlabs.no/administrasjon/arbeidsforholdstype.json)
+- `art` [schema](https://schema.fintlabs.no/administrasjon/art.json)
+- `diverse` [schema](https://schema.fintlabs.no/administrasjon/diverse.json)
+- `fravarsgrunn` [schema](https://schema.fintlabs.no/administrasjon/fravarsgrunn.json)
+- `fravarstype` [schema](https://schema.fintlabs.no/administrasjon/fravarstype.json)
+- `funksjon` [schema](https://schema.fintlabs.no/administrasjon/funksjon.json)
+- `kontrakt` [schema](https://schema.fintlabs.no/administrasjon/kontrakt.json)
+- `lonnsart` [schema](https://schema.fintlabs.no/administrasjon/lonnsart.json)
+- `lopenummer` [schema](https://schema.fintlabs.no/administrasjon/lopenummer.json)
+- `objekt` [schema](https://schema.fintlabs.no/administrasjon/objekt.json)
+- `personalressurskategori` [schema](https://schema.fintlabs.no/administrasjon/personalressurskategori.json)
+- `prosjekt` [schema](https://schema.fintlabs.no/administrasjon/prosjekt.json)
+- `ramme` [schema](https://schema.fintlabs.no/administrasjon/ramme.json)
+- `stillingskode` [schema](https://schema.fintlabs.no/administrasjon/stillingskode.json)
+- `uketimetall` [schema](https://schema.fintlabs.no/administrasjon/uketimetall.json)
+
 
 ## Data model for payload
 
