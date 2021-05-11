@@ -29,13 +29,13 @@ javadoc {
     destinationDir = file('./javadocs/')
 }
 
-
 repositories {
-    mavenLocal()
+    mavenCentral()
     jcenter()
     maven {
-        url 'http://dl.bintray.com/fint/maven'
+        url 'https://repo.fintlabs.no/releases'
     }
+    mavenLocal()
 }
 
 dependencies {
@@ -52,9 +52,9 @@ dependencies {
     compile 'org.hibernate.validator:hibernate-validator:6.0.17.Final'
     compile 'org.hibernate.validator:hibernate-validator-annotation-processor:6.0.17.Final'
 
-    compile('no.fint:fint-sse:2.0.0-rc-1')
-    compile('no.fint:fint-event-model:3.0.0')
-    compile('no.fint:fint-relation-model:1.1.5')
+    compile('no.fint:fint-sse:2.0.0')
+    compile('no.fint:fint-event-model:3.0.1')
+    compile('no.fint:fint-relation-model:1.1.6')
 
     compile("no.fint:fint-administrasjon-resource-model-java:${apiVersion}")
 
