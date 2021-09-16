@@ -74,7 +74,6 @@ public abstract class FileRepository<T extends FintMainObject & FintLinks> {
                 .map(t -> t.map2(LinkMapperService::remap))
                 .map(t -> t.map1(this::getFileName))
                 .map(t -> t.map1(path::resolve))
-                .peek(t -> System.out.println(t.v1))
                 .map(t -> t.map1(Path::toFile))
                 .forEach(Tuple.consumer(Unchecked.biConsumer(writer::writeValue)));
     }
@@ -111,7 +110,6 @@ public abstract class FileRepository<T extends FintMainObject & FintLinks> {
         return items.map(Identifiable::identifiers)
                 .map(this::getFileName)
                 .map(path::resolve)
-                .peek(System.out::println)
                 .allMatch(Unchecked.predicate(Files::deleteIfExists));
     }
 }
